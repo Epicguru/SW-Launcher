@@ -1,20 +1,16 @@
 package co.uk.epicguru.window;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import co.uk.epicguru.main.assets.Assets;
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.SpringLayout;
+import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Window.Type;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SpringLayout;
+
+import co.uk.epicguru.main.assets.Assets;
 
 public class MainWindow {
 
@@ -75,6 +71,11 @@ public class MainWindow {
 		stateLabel.setForeground(Color.WHITE);
 		springLayout.putConstraint(SpringLayout.WEST, stateLabel, 6, SpringLayout.EAST, playButton);
 		frmSkillwarzLauncher.getContentPane().add(stateLabel);
+		
+		JButton forumsButton = new JButton("");
+		springLayout.putConstraint(SpringLayout.NORTH, forumsButton, 6, SpringLayout.SOUTH, titleLogo);
+		springLayout.putConstraint(SpringLayout.WEST, forumsButton, 0, SpringLayout.WEST, titleLogo);
+		frmSkillwarzLauncher.getContentPane().add(forumsButton);
 		frmSkillwarzLauncher.setIconImage(Assets.loadImage("Icon.png"));
 		frmSkillwarzLauncher.setTitle("Skillwarz Launcher");
 		frmSkillwarzLauncher.setBounds(100, 100, 729, 487);
