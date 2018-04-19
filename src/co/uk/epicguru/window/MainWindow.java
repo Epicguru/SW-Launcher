@@ -3,15 +3,22 @@ package co.uk.epicguru.window;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import javax.swing.border.SoftBevelBorder;
 
+import co.uk.epicguru.interaction.Interaction;
 import co.uk.epicguru.main.assets.Assets;
 
 public class MainWindow {
@@ -22,6 +29,12 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					try {
+						UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					MainWindow window = new MainWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -65,15 +78,6 @@ public class MainWindow {
 		springLayout.putConstraint(SpringLayout.EAST, playButton, 160, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(playButton);
 		
-		JLabel stateLabel = new JLabel("Ready to play!");
-		springLayout.putConstraint(SpringLayout.EAST, stateLabel, 0, SpringLayout.EAST, titleLogo);
-		stateLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		springLayout.putConstraint(SpringLayout.NORTH, stateLabel, -67, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, stateLabel, -36, SpringLayout.SOUTH, frame.getContentPane());
-		stateLabel.setForeground(Color.WHITE);
-		springLayout.putConstraint(SpringLayout.WEST, stateLabel, 6, SpringLayout.EAST, playButton);
-		frame.getContentPane().add(stateLabel);
-		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		playButton.setBorder(emptyBorder);
 		
@@ -82,9 +86,65 @@ public class MainWindow {
 		springLayout.putConstraint(SpringLayout.NORTH, forumLabel, 6, SpringLayout.SOUTH, titleLogo);
 		springLayout.putConstraint(SpringLayout.WEST, forumLabel, 0, SpringLayout.WEST, titleLogo);
 		frame.getContentPane().add(forumLabel);
+		
+		JButton forumsButton = new JButton("Visit Forums");
+		forumsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Interaction.openForums();
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, forumsButton, 6, SpringLayout.SOUTH, titleLogo);
+		springLayout.putConstraint(SpringLayout.WEST, forumsButton, 6, SpringLayout.EAST, forumLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, forumsButton, 0, SpringLayout.SOUTH, forumLabel);
+		springLayout.putConstraint(SpringLayout.EAST, forumsButton, 172, SpringLayout.EAST, forumLabel);
+		forumsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		frame.getContentPane().add(forumsButton);
+		
+		JLabel youtubeLabel = new JLabel("");
+		youtubeLabel.setIcon(new ImageIcon(MainWindow.class.getResource("/co/uk/epicguru/main/assets/Youtube.png")));
+		springLayout.putConstraint(SpringLayout.NORTH, youtubeLabel, 6, SpringLayout.SOUTH, forumLabel);
+		springLayout.putConstraint(SpringLayout.WEST, youtubeLabel, 0, SpringLayout.WEST, titleLogo);
+		frame.getContentPane().add(youtubeLabel);
+		
+		JButton youtubeButton = new JButton("Youtube Channel");
+		youtubeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Interaction.openYoutube();
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, youtubeButton, 6, SpringLayout.SOUTH, forumsButton);
+		springLayout.putConstraint(SpringLayout.WEST, youtubeButton, 6, SpringLayout.EAST, youtubeLabel);
+		springLayout.putConstraint(SpringLayout.EAST, youtubeButton, 172, SpringLayout.EAST, youtubeLabel);
+		youtubeButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		frame.getContentPane().add(youtubeButton);
+		
+		JPanel panel = new JPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, panel, 5, SpringLayout.NORTH, playButton);
+		springLayout.putConstraint(SpringLayout.WEST, panel, 4, SpringLayout.EAST, playButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, panel, -5, SpringLayout.SOUTH, playButton);
+		springLayout.putConstraint(SpringLayout.EAST, panel, -10, SpringLayout.EAST, frame.getContentPane());
+		panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		frame.getContentPane().add(panel);
+		SpringLayout sl_panel = new SpringLayout();
+		panel.setLayout(sl_panel);
+		
+		JLabel stateLabel = new JLabel("Ready to play!");
+		sl_panel.putConstraint(SpringLayout.NORTH, stateLabel, 3, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, stateLabel, 5, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, stateLabel, -5, SpringLayout.EAST, panel);
+		panel.add(stateLabel);
+		
+		JLabel versionLabel = new JLabel("Downloaded game version: 18b");
+		sl_panel.putConstraint(SpringLayout.NORTH, versionLabel, 5, SpringLayout.SOUTH, stateLabel);
+		sl_panel.putConstraint(SpringLayout.WEST, versionLabel, 0, SpringLayout.WEST, stateLabel);
+		sl_panel.putConstraint(SpringLayout.EAST, versionLabel, -5, SpringLayout.EAST, panel);
+		panel.add(versionLabel);
+		
 		frame.setIconImage(Assets.loadImage("Icon.png"));
 		frame.setTitle("Skillwarz Launcher");
 		frame.setBounds(100, 100, 600, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// Youtube link https://www.youtube.com/user/OneManArmy3D
 	}
 }
