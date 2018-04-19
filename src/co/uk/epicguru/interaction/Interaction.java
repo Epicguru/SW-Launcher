@@ -1,5 +1,6 @@
 package co.uk.epicguru.interaction;
 
+import co.uk.epicguru.download.Download;
 import co.uk.epicguru.links.Link;
 
 public final class Interaction {
@@ -8,6 +9,12 @@ public final class Interaction {
 		
 		try {
 			Link.open(Link.FORUM_LINK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Download.downloadTo("https://codeload.github.com/Epicguru/Boats-Guns-And-Explosions/zip/TestRelease", "D:\\Dev\\Downloaded.zip");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
