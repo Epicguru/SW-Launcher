@@ -55,6 +55,12 @@ public final class Download {
 						out.close();
 						is.close();
 						
+						downloading = false;
+						
+						if(tracker != null){
+							tracker.downloadCancelled();
+						}
+						
 						return;
 					}
 				}
@@ -72,6 +78,10 @@ public final class Download {
 				is.close();
 				
 				downloading = false;
+				
+				if(tracker != null){
+					tracker.downloadCompleted();
+				}
 				
 			}catch(Exception e){
 				e.printStackTrace();

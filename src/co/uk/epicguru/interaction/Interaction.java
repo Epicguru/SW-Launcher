@@ -42,9 +42,26 @@ public final class Interaction {
 					new DownloadTracker(){
 						public void currentProgress(int bytes, int totalBytes) {
 							
+							if(downloadWindow == null)
+								return;
+							
 							float percentage = (float)bytes / totalBytes;
 							int p = Math.round(percentage * 100f);
 							downloadWindow.getDownloadPercentage().setValue(p);						
+						}
+
+						public void downloadCompleted() {
+							Debug.log("Completed the download, yay!");
+							
+							if(downloadWindow == null)
+								return;
+							
+							// Close the window...
+							downloadWindow.dispatchEvent(new WindowEvent(downloadWindow, WindowEvent.WINDOW_CLOSING));
+						}
+
+						public void downloadCancelled() {
+							Debug.log("The download was interupted (cancelled).");
 						}
 					}
 			);

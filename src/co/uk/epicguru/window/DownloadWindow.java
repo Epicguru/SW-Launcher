@@ -44,6 +44,8 @@ public class DownloadWindow extends JFrame {
 		}
 	}
 
+	public boolean dialogOpen = false;
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -67,9 +69,29 @@ public class DownloadWindow extends JFrame {
 		contentPanel.add(downloadPercentage);
 		
 		JButton cancelButton = new JButton("Cancel");
+		DownloadWindow win = this;
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Interaction.downloadCancelRequest();
+				
+				// Is the user sure they want to cancel?
+				if(dialogOpen)
+					return;
+				
+				dialogOpen = true;
+				ConfirmCancelDialog.open(() -> {
+					
+					// Confirm cancel.
+					dialogOpen = false;
+					
+					// Just close, the window listener will detect the closing and will stop the download.
+					dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
+					
+				}, () -> {
+					
+					// Resume download.
+					dialogOpen = false;				
+					
+				});
 			}
 		});
 		cancelButton.setBounds(10, 57, 90, 28);
@@ -88,6 +110,9 @@ public class DownloadWindow extends JFrame {
 				Debug.log("Download window is closing, requested by user.");	
 				
 				Interaction.downloadWindowClosed();
+				
+				setVisible(false);
+	            dispose();
 			}			
 		});
 		
