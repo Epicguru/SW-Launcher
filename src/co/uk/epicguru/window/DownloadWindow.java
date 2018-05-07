@@ -1,17 +1,18 @@
 package co.uk.epicguru.window;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import java.awt.Window.Type;
 
-public class DownloadWindow extends JDialog {
+public class DownloadWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -42,7 +43,8 @@ public class DownloadWindow extends JDialog {
 	 * Create the dialog.
 	 */
 	public DownloadWindow() {
-		setType(Type.POPUP);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DownloadWindow.class.getResource("/co/uk/epicguru/main/assets/Downloading Icon.png")));
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Downloading new version...");
 		setBounds(100, 100, 450, 121);
