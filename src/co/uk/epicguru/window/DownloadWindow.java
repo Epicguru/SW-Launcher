@@ -45,6 +45,7 @@ public class DownloadWindow extends JFrame {
 	}
 
 	public boolean dialogOpen = false;
+	private JLabel downloadState;
 	
 	/**
 	 * Create the dialog.
@@ -116,12 +117,15 @@ public class DownloadWindow extends JFrame {
 			}			
 		});
 		
-		JLabel downloadState = new JLabel("50 Mb/s - 0.35 of 2GB");
+		downloadState = new JLabel("50 Mb/s - 0.35 of 2GB");
 		downloadState.setBounds(110, 63, 324, 16);
 		contentPanel.add(downloadState);
 	}
 	
 	public JProgressBar getDownloadPercentage() {
 		return downloadPercentage;
+	}
+	public JLabel getDownloadState() {
+		return downloadState;
 	}
 }

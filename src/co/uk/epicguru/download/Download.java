@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import org.apache.commons.io.FileUtils;
 
@@ -30,6 +31,7 @@ public final class Download {
 		runOnThread(() -> {
 			try{
 				
+				DecimalFormat f = new DecimalFormat("#.##");
 				URL url = new URL(web);
 				InputStream is = url.openStream();
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -40,13 +42,30 @@ public final class Download {
 				int n = 0;
 				byte[] chunk = new byte[(int) (10 * 1024)]; // 10 KB
 				
+				long lastTime = System.currentTimeMillis();
+				int bytesDownloaded = 0;
+				long totalBytes = 0;
+				
 				while((n = is.read(chunk)) > 0){		
 					
 					out.write(chunk, 0, n);
 					total += n;
 					
+					bytesDownloaded += n;
+					totalBytes += n;
+					
 					if(tracker != null){
 						tracker.currentProgress(total, estimate);
+					}
+					
+					long timeSinceLast = System.currentTimeMillis() - lastTime;
+					if(timeSinceLast >= 1000){
+						lastTime = System.currentTimeMillis();
+						
+						Debug.log("Downloading at " + f.format(bytesDownloaded / 1024f / 1024f) + " MB/s.");
+						Debug.log("Downloaded " + f.format(totalBytes / 1024 / 1024) + " of " + f.format(estimate / 1024 / 1024) + " MB");
+						
+						bytesDownloaded = 0;
 					}
 					
 					if(cancelDownload){
