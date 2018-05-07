@@ -13,44 +13,76 @@ import co.uk.epicguru.main.Debug;
 
 public final class Download {
 
-	public static void downloadTo(String web, String destination, DownloadTracker tracker) throws Exception{
+	public static boolean downloading = false;
+	public static boolean cancelDownload = false;
+	
+	public static void downloadTo(String web, String destination, DownloadTracker tracker){
 		
 		// Test file:
-		// http://ipv4.download.thinkbroadband.com/20MB.zip
-		// https://c14.workupload.com/download/c2kh9NB
-		
-		URL url = new URL(web);
-		InputStream is = url.openStream();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
-		int estimate = getFileSize(url);
-		int total = 0;
-		
-		int n = 0;
-		byte[] chunk = new byte[(int) (10 * 1024)]; // 10 KB
-		
-		while((n = is.read(chunk)) > 0){		
-			
-			out.write(chunk, 0, n);
-			total += n;
-			
-			if(tracker != null){
-				tracker.currentProgress(total, estimate);
-			}
+		// https://datapacket.dl.sourceforge.net/project/fotohound/sample-pictures/Sample/Sample-Pictures.zip
+		if(downloading){
+			Debug.log("Already downloading file, cannot process multiple downloads at once.");
+			return;
 		}
+		downloading = true;
+		cancelDownload = false;
 		
-		Debug.log("Estimated " + estimate + " bytes, there were " + total + " bytes.");
-		
-		byte[] bytesRead = out.toByteArray();
-		out.close();
-		
-		// Save to file
-		File file = new File(destination);
-		bytesToFile(bytesRead, file);
-		
-		// Execute new and delete this.			
-		is.close();
-		
+		runOnThread(() -> {
+			try{
+				
+				URL url = new URL(web);
+				InputStream is = url.openStream();
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				
+				int estimate = getFileSize(url);
+				int total = 0;
+				
+				int n = 0;
+				byte[] chunk = new byte[(int) (10 * 1024)]; // 10 KB
+				
+				while((n = is.read(chunk)) > 0){		
+					
+					out.write(chunk, 0, n);
+					total += n;
+					
+					if(tracker != null){
+						tracker.currentProgress(total, estimate);
+					}
+					
+					if(cancelDownload){
+						Debug.log("Download has been canceled, no longer requesting more bytes...");
+						
+						out.close();
+						is.close();
+						
+						return;
+					}
+				}
+				
+				Debug.log("Estimated " + estimate + " bytes, there were " + total + " bytes.");
+				
+				byte[] bytesRead = out.toByteArray();
+				out.close();
+				
+				// Save to file
+				File file = new File(destination);
+				bytesToFile(bytesRead, file);
+				
+				// Execute new and delete this.			
+				is.close();
+				
+				downloading = false;
+				
+			}catch(Exception e){
+				e.printStackTrace();
+				downloading = false;
+			}
+		});
+	}
+	
+	private static void runOnThread(Runnable r){
+		Thread thread = new Thread(r);
+		thread.start();
 	}
 	
 	private static int getFileSize(URL url) {
