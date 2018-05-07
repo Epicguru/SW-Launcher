@@ -32,7 +32,6 @@ public class MainWindow {
 					try {
 						UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					MainWindow window = new MainWindow();
@@ -56,6 +55,7 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		SpringLayout springLayout = new SpringLayout();
@@ -139,6 +139,18 @@ public class MainWindow {
 		sl_panel.putConstraint(SpringLayout.WEST, versionLabel, 0, SpringLayout.WEST, stateLabel);
 		sl_panel.putConstraint(SpringLayout.EAST, versionLabel, -5, SpringLayout.EAST, panel);
 		panel.add(versionLabel);
+		
+		JButton testDownload = new JButton("Test Download");
+		testDownload.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				Interaction.testDownload();
+			}			
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, testDownload, 6, SpringLayout.SOUTH, youtubeButton);
+		springLayout.putConstraint(SpringLayout.WEST, testDownload, 0, SpringLayout.WEST, forumsButton);
+		springLayout.putConstraint(SpringLayout.EAST, testDownload, 0, SpringLayout.EAST, forumsButton);
+		frame.getContentPane().add(testDownload);
 		
 		frame.setIconImage(Assets.loadImage("Icon.png"));
 		frame.setTitle("Skillwarz Launcher");

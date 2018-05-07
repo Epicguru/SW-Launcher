@@ -13,7 +13,7 @@ import co.uk.epicguru.main.Debug;
 
 public final class Download {
 
-	public static void downloadTo(String web, String destination) throws Exception{
+	public static void downloadTo(String web, String destination, DownloadTracker tracker) throws Exception{
 		
 		// Test file:
 		// http://ipv4.download.thinkbroadband.com/20MB.zip
@@ -34,10 +34,9 @@ public final class Download {
 			out.write(chunk, 0, n);
 			total += n;
 			
-			float p = total / (float)estimate;
-			p *= 100;
-			
-			Debug.log("Downloaded " + p + "%");
+			if(tracker != null){
+				tracker.currentProgress(total, estimate);
+			}
 		}
 		
 		Debug.log("Estimated " + estimate + " bytes, there were " + total + " bytes.");
