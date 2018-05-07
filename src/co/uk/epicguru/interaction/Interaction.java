@@ -37,8 +37,8 @@ public final class Interaction {
 		
 		downloadWindow = DownloadWindow.openNew();
 		try {
-			Download.downloadTo("https://datapacket.dl.sourceforge.net/project/fotohound/sample-pictures/Sample/Sample-Pictures.zip",
-					"D:\\Dev\\Downloaded.zip",
+			Download.downloadTo("http://download668.mediafire.com/74w9iipoqumg/b9unq49w1bj9hhb/skillwarz_19a_x64.rar",
+					"D:\\Dev\\Downloaded.rar",
 					new DownloadTracker(){
 						public void currentProgress(int bytes, int totalBytes) {
 							
