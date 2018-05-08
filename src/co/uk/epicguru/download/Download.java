@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
 
 import org.apache.commons.io.FileUtils;
 
@@ -31,7 +30,7 @@ public final class Download {
 		runOnThread(() -> {
 			try{
 				
-				DecimalFormat f = new DecimalFormat("#.##");
+				//DecimalFormat f = new DecimalFormat("#.##");
 				URL url = new URL(web);
 				InputStream is = url.openStream();
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -44,7 +43,7 @@ public final class Download {
 				
 				long lastTime = System.currentTimeMillis();
 				int bytesDownloaded = 0;
-				long totalBytes = 0;
+				//long totalBytes = 0;
 				
 				while((n = is.read(chunk)) > 0){		
 					
@@ -52,7 +51,7 @@ public final class Download {
 					total += n;
 					
 					bytesDownloaded += n;
-					totalBytes += n;
+					//totalBytes += n;
 					
 					if(tracker != null){
 						tracker.currentProgress(total, estimate);
@@ -62,8 +61,12 @@ public final class Download {
 					if(timeSinceLast >= 1000){
 						lastTime = System.currentTimeMillis();
 						
-						Debug.log("Downloading at " + f.format(bytesDownloaded / 1024f / 1024f) + " MB/s.");
-						Debug.log("Downloaded " + f.format(totalBytes / 1024 / 1024) + " of " + f.format(estimate / 1024 / 1024) + " MB");
+						//Debug.log("Downloading at " + f.format(bytesDownloaded / 1024f / 1024f) + " MB/s.");
+						//Debug.log("Downloaded " + f.format(totalBytes / 1024 / 1024) + " of " + f.format(estimate / 1024 / 1024) + " MB");
+						
+						if(tracker != null){
+							tracker.currentSpeed(bytesDownloaded);
+						}
 						
 						bytesDownloaded = 0;
 					}

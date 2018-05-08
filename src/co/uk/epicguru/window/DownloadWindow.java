@@ -117,7 +117,7 @@ public class DownloadWindow extends JFrame {
 			}			
 		});
 		
-		downloadState = new JLabel("50 Mb/s - 0.35 of 2GB");
+		downloadState = new JLabel("0 MB/s - 0.00 of -.--GB");
 		downloadState.setBounds(110, 63, 324, 16);
 		contentPanel.add(downloadState);
 	}
