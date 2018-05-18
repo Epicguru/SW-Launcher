@@ -25,6 +25,15 @@ public final class Interaction {
 		}		
 	}
 	
+	public static void openManualDownload(){
+		
+		try {
+			Link.open(Link.FORUM_DOWNLOAD_LINK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void openYoutube(){
 		
 		try {

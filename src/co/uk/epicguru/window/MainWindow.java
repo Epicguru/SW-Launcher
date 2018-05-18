@@ -124,7 +124,7 @@ public class MainWindow {
 		panel.add(versionLabel);
 		
 		JButton testDownload = new JButton("Test Download");
-		testDownload.setBounds(50, 249, 175, 32);
+		testDownload.setBounds(353, 177, 175, 32);
 		testDownload.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
@@ -134,14 +134,31 @@ public class MainWindow {
 		frame.getContentPane().add(testDownload);
 		
 		JButton manualButton = new JButton("Manual Download");
+		manualButton.addActionListener((x) -> {
+			Interaction.openManualDownload();
+		});
 		manualButton.setBounds(50, 175, 175, 32);
 		manualButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		frame.getContentPane().add(manualButton);
+		
+		JButton settingsButton = new JButton("Settings");
+		settingsButton.addActionListener((x) -> {
+			// Open settings window.
+			SettingsWindow.openNew();
+		});
+		settingsButton.setBounds(50, 215, 175, 32);
+		settingsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		frame.getContentPane().add(settingsButton);
 		
 		JLabel manualLabel = new JLabel("");
 		manualLabel.setIcon(new ImageIcon(MainWindow.class.getResource("/co/uk/epicguru/main/assets/Manual Download.png")));
 		manualLabel.setBounds(10, 175, 32, 32);
 		frame.getContentPane().add(manualLabel);
+		
+		JLabel settingsLabel = new JLabel("");
+		settingsLabel.setIcon(new ImageIcon(MainWindow.class.getResource("/co/uk/epicguru/main/assets/Settings.png")));
+		settingsLabel.setBounds(10, 215, 32, 32);
+		frame.getContentPane().add(settingsLabel);
 		
 		JLabel background = new JLabel("");
 		background.setIcon(new ImageIcon(MainWindow.class.getResource("/co/uk/epicguru/main/assets/Background.png")));
