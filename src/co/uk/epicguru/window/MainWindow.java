@@ -23,7 +23,10 @@ import co.uk.epicguru.main.assets.Assets;
 
 public class MainWindow {
 
+	public static MainWindow instance;
+	
 	private JFrame frame;
+	private JLabel versionLabel;
 
 	public static void launch(){
 		EventQueue.invokeLater(new Runnable() {
@@ -36,6 +39,7 @@ public class MainWindow {
 					}
 					MainWindow window = new MainWindow();
 					window.frame.setVisible(true);
+					instance = window;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -117,7 +121,7 @@ public class MainWindow {
 		sl_panel.putConstraint(SpringLayout.EAST, stateLabel, -5, SpringLayout.EAST, panel);
 		panel.add(stateLabel);
 		
-		JLabel versionLabel = new JLabel("Downloaded game version: 18b");
+		versionLabel = new JLabel("Downloaded game version: 18b");
 		sl_panel.putConstraint(SpringLayout.NORTH, versionLabel, 5, SpringLayout.SOUTH, stateLabel);
 		sl_panel.putConstraint(SpringLayout.WEST, versionLabel, 0, SpringLayout.WEST, stateLabel);
 		sl_panel.putConstraint(SpringLayout.EAST, versionLabel, -5, SpringLayout.EAST, panel);
@@ -169,5 +173,8 @@ public class MainWindow {
 		frame.setTitle("Skillwarz Launcher");
 		frame.setBounds(100, 100, 600, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	public JLabel getVersionLabel() {
+		return versionLabel;
 	}
 }

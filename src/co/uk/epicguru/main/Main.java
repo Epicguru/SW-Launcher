@@ -1,5 +1,6 @@
 package co.uk.epicguru.main;
 
+import co.uk.epicguru.interaction.Version;
 import co.uk.epicguru.window.MainWindow;
 
 public final class Main {
@@ -22,7 +23,8 @@ public final class Main {
 	private static void run() throws Exception{		
 		
 		MainWindow.launch();
-		
+		String installed = Version.getInstalled();
+		MainWindow.instance.getVersionLabel().setText("Installed Game Version: " + (installed == null ? "Not Installed" : installed));
 	}
 	
 }

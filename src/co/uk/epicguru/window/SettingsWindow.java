@@ -1,12 +1,11 @@
 package co.uk.epicguru.window;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.io.File;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,13 +16,21 @@ import co.uk.epicguru.main.Debug;
 
 public class SettingsWindow extends JFrame {
 
+	public static SettingsWindow open;
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	public static SettingsWindow openNew() {
+		if(open != null){
+			Debug.log("Settings already open, cannot open new window!");
+			return null;
+		}
 		try {
 			SettingsWindow dialog = new SettingsWindow();
 			dialog.setVisible(true);
+			
+			open = dialog;
 			
 			return dialog;
 		} catch (Exception e) {
@@ -39,8 +46,44 @@ public class SettingsWindow extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SettingsWindow.class.getResource("/co/uk/epicguru/main/assets/Settings.png")));
 		setTitle("Skillwarz Launcher Settings");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 382, 400);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		super.addWindowListener(new WindowListener(){
+
+			public void windowActivated(WindowEvent arg0) {
+				
+			}
+
+			public void windowClosed(WindowEvent arg0) {
+				
+			}
+
+			public void windowClosing(WindowEvent arg0) {
+				Debug.log("Closing settings window...");
+				
+				setVisible(false);
+				dispose();
+				
+				open = null;
+			}
+
+			public void windowDeactivated(WindowEvent arg0) {
+				
+			}
+
+			public void windowDeiconified(WindowEvent arg0) {
+				
+			}
+
+			public void windowIconified(WindowEvent arg0) {
+				
+			}
+
+			public void windowOpened(WindowEvent arg0) {
+				
+			}
+			
+		});
+		setBounds(100, 100, 382, 134);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,37 +96,12 @@ public class SettingsWindow extends JFrame {
 		contentPane.add(title);
 		
 		JButton saveButton = new JButton("Save Settings");
-		saveButton.setBounds(6, 337, 114, 28);
+		saveButton.setBounds(6, 71, 114, 28);
 		contentPane.add(saveButton);
-		
-		JLabel gameDirLabel = new JLabel("Game Install Location");
-		gameDirLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-		gameDirLabel.setBounds(6, 55, 364, 16);
-		contentPane.add(gameDirLabel);
-		
-		JButton changeGameDir = new JButton("Change");
-		changeGameDir.addActionListener((x) -> {
-			JFileChooser fc = new JFileChooser();
-			fc.setCurrentDirectory(new File("."));
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int result = fc.showOpenDialog(this);
-			
-			if(result == JFileChooser.APPROVE_OPTION){
-				File selected = fc.getSelectedFile();
-				Debug.log(selected.getAbsolutePath());
-			}
+		SettingsWindow win = this;
+		saveButton.addActionListener((x) -> {
+			// Just close settings window. It will be saved.
+			dispatchEvent(new WindowEvent(win, WindowEvent.WINDOW_CLOSING));
 		});
-		changeGameDir.setBounds(280, 74, 90, 28);
-		contentPane.add(changeGameDir);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(6, 74, 265, 28);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel currentGameDir = new JLabel("D:\\Documents\\Skillwarz");
-		currentGameDir.setBounds(6, 6, 352, 16);
-		panel.add(currentGameDir);
 	}
 }

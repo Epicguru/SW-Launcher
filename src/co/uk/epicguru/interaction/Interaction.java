@@ -48,6 +48,10 @@ public final class Interaction {
 		if(Download.downloading)
 			return;
 		
+		// Get current version or something...
+		String version = Version.getInstalled();
+		Debug.log(version);
+		
 		// Test PHP
 		// path:
 		// http://exblegal.com/downloadLink.php

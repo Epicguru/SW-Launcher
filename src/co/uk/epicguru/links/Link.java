@@ -3,6 +3,9 @@ package co.uk.epicguru.links;
 import java.awt.Desktop;
 import java.net.URI;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
+
 import co.uk.epicguru.main.Debug;
 
 public final class Link {
@@ -19,6 +22,18 @@ public final class Link {
 			Debug.log("Not running on desktop? Desktop lib not supported, cannot open link!");
 		}
 		
+	}
+	
+	private static String docCache;
+	public static String getMyDocuments(){
+
+		if(docCache == null){
+			JFileChooser fr = new JFileChooser();
+		    FileSystemView fw = fr.getFileSystemView();
+		    docCache = fw.getDefaultDirectory().getAbsolutePath();
+		}
+		
+		return docCache;
 	}
 	
 }
